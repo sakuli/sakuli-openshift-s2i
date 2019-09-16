@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cat <<EOF
+This is an base image to run sakuli2 test suites
+leveraging OpenShifts Source to image (S2I) functionality.
+EOF
