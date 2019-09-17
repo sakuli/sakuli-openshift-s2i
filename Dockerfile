@@ -1,4 +1,4 @@
-FROM taconsol/sakuli:2.1.2
+FROM taconsol/sakuli:2.1.3
 
 LABEL io.openshift.s2i.scripts-url=image:///opt/s2i
 LABEL io.openshift.s2i.destination=/tmp
