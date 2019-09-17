@@ -14,6 +14,10 @@ parameters:
     required: true
     value: sakuli-s2i-testsuite
 
+  - description: The Sakuli2 Licence key
+    name: SAKULI_LICENSE_KEY
+    required: true
+
   - description: Git source URI for the testsuite
     name: TESTSUITE_REPOSITORY_URL
     required: true
@@ -92,6 +96,9 @@ objects:
           from:
             kind: ${BASE_IMAGE_KIND}
             name: ${BASE_IMAGE}
+          env:
+            - name: "SAKULI_LICENSE_KEY"
+              value: ${SAKULI_LICENSE_KEY}
       triggers:
         - github:
             secret: ${GITHUB_WEBHOOK_SECRET}
