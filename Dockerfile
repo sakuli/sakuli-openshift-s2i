@@ -1,12 +1,17 @@
-FROM taconsol/sakuli:2.1.3
+# sakuli-s2i
+ARG BASE_IMAGE_VERSION=2.1.3
+FROM taconsol/sakuli:${BASE_IMAGE_VERSION}
 
-LABEL io.openshift.s2i.scripts-url=image:///opt/s2i
-LABEL io.openshift.s2i.destination=/tmp
+LABEL maintainer="Sven Hettwer <Sven.Hettwer@consol.de>"
+
+LABEL io.openshift.s2i.scripts-url=image:///opt/s2i \
+      io.openshift.s2i.destination=/tmp
+
 ENV SAKULI_TEST_SUITE /headless/sakuli_test_suite
 
 USER root
 
-COPY s2i/* /opt/s2i/
+COPY ./s2i/bin/* /opt/s2i/
 RUN chmod 775 /opt/s2i/* && \
     mkdir -p ${SAKULI_TEST_SUITE} && \
     chmod -R 775 ${SAKULI_TEST_SUITE} && \

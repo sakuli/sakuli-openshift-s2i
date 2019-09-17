@@ -1,0 +1,19 @@
+{
+  "name": "sakuli-io-demo",
+  "version": "1.0.0",
+  "description": "demo showcase for sakuli.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "sakuli run ./demo-suite"
+  },
+  "author": "",
+  "license": "ISC",
+  "sakuli": {
+    "presetProvider": [
+      "@sakuli/legacy"
+    ]
+  },
+  "dependencies": {
+    "@sakuli/cli": "^2.1.3"
+  }
+}
