@@ -92,8 +92,6 @@ objects:
           from:
             kind: ${BASE_IMAGE_KIND}
             name: ${BASE_IMAGE}
-          noCache: false
-          forcePull: true
       triggers:
         - github:
             secret: ${GITHUB_WEBHOOK_SECRET}
