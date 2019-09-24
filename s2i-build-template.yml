@@ -45,6 +45,11 @@ parameters:
     required: true
     value: sakuli-s2i
 
+  - description: The tag of the base image to use
+    name: BASE_IMAGE_TAG
+    required: true
+    value: 2.1.3
+
   - description: GitHub trigger secret
     from: '[a-zA-Z0-9]{8}'
     generate: expression
@@ -72,6 +77,15 @@ objects:
       name: ${IMAGE}
 
   - apiVersion: v1
+    kind: ImageStream
+    metadata:
+      labels:
+        application: ${IMAGE}
+      name: ${BASE_IMAGE}
+    spec:
+      dockerImageRepository: docker.io/taconsol/${BASE_IMAGE}
+
+  - apiVersion: v1
     kind: BuildConfig
     metadata:
       labels:
@@ -95,7 +109,7 @@ objects:
         sourceStrategy:
           from:
             kind: ${BASE_IMAGE_KIND}
-            name: ${BASE_IMAGE}
+            name: ${BASE_IMAGE}:${BASE_IMAGE_TAG}
           env:
             - name: "SAKULI_LICENSE_KEY"
               value: ${SAKULI_LICENSE_KEY}
