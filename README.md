@@ -72,3 +72,22 @@ _Note: Before you release, make sure that the sakuli version is correctly set in
 make release
 ```
  
+ 
+## Installing the image on a customers cluster
+
+### Creating and linking a docker secret
+In order to connect to docker hub during a OpenShift build, it is required to create a `docker-registry` secret
+containing the credentials to access the _taconsol_ docker repository and link it to the servicea ccount `builder`.
+```shell script
+oc create secret docker-registry dockerhub-sakuli-secret \
+    --docker-server=docker.io \
+    --docker-username=<docker-username> \
+    --docker-password=<docker-password> \
+    --docker-email=unused
+
+oc secrets link builder dockerhub-sakuli-secret
+```
+
+### Applying infrastructure
+To setup an s2i build in an OpenShift cluster, various Objects are required. A predefined template can be found in the
+[s2i-build-template.yml](s2i-build-template.yml).
