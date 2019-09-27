@@ -75,9 +75,9 @@ make release
  
 ## Installing the image on a customers cluster
 
-### Creating and linking a docker secret
-In order to connect to docker hub during a OpenShift build, it is required to create a `docker-registry` secret
-containing the credentials to access the _taconsol_ docker repository and link it to the servicea ccount `builder`.
+### Creating a docker secret and importing the image
+In order to connect to docker hub during a OpenShift image import, it is required to create a `docker-registry` secret
+containing the credentials to access the _taconsol_ docker repository so that the image can be imported as follows.
 ```shell script
 oc create secret docker-registry dockerhub-sakuli-secret \
     --docker-server=docker.io \
@@ -85,7 +85,11 @@ oc create secret docker-registry dockerhub-sakuli-secret \
     --docker-password=<docker-password> \
     --docker-email=unused
 
-oc secrets link builder dockerhub-sakuli-secret
+oc import-image sakuli-s2i \
+    --from=taconsol/sakuli-s2i \
+    --confirm \
+    --scheduled=true \
+    --all=true
 ```
 
 ### Applying infrastructure
