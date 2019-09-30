@@ -40,7 +40,7 @@ parameters:
   - description: Kind of source to obtain the builder image from.
     name: BUILDER_IMAGE_KIND
     required: true
-    value: ImageStream
+    value: ImageStreamTag
 
   - description: Name of the builder image.
     name: BUILDER_IMAGE
