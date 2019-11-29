@@ -1,8 +1,8 @@
-# Creating a basic S2I builder image  
+# Creating a basic S2I builder image
 
-## Getting started  
+## Getting started
 
-### Files and Directories  
+### Files and Directories
 | File                   | Required? | Description                                                  |
 |------------------------|-----------|--------------------------------------------------------------|
 | Dockerfile             | Yes       | Defines the base builder image                               |
@@ -14,8 +14,12 @@
 | test/test-app          | Yes       | Test application source code                                 |
 
 #### Dockerfile
-Create a *Dockerfile* that installs all of the necessary tools and libraries that are needed to build and run our 
+Create a *Dockerfile* that installs all of the necessary tools and libraries that are needed to build and run our
 sakuli 2 testcase.  This file will also handle copying the s2i scripts into the created image.
+
+#### S2I binary
+
+You can download the S2I binary for your platform from [GitHub](https://github.com/openshift/source-to-image/releases)
 
 #### S2I scripts
 
@@ -46,18 +50,18 @@ s2i build test/test-app sakuli-s2i sakuli-s2i-candidate
 ---> Building and installing test image from source...
 ```
 Using the logic defined in the *assemble* script, s2i will now create an image using the builder image as a base and
-including the source code from the test/test-app directory. 
+including the source code from the test/test-app directory.
 
 #### Running the application image
 Running the image is as simple as invoking the docker run command:
 ```
 docker run -d -p 6901:6901 sakuli-s2i-candidate
 ```
-The test, which consists of a simple check for [sakuli.io](https://sakuli.io), should now be accessible at  
+The test, which consists of a simple check for [sakuli.io](https://sakuli.io), should now be accessible at
 [http://localhost:6901](http://localhost:6901?password=vncpassword).
 
 #### Build pipeline
-To run the whole pipeline consisting of a build step, a test step covering the container consistency, build 
+To run the whole pipeline consisting of a build step, a test step covering the container consistency, build
 functionality and e2e tests and a pre-release step where the container image is tagged to be pushed to docker.io.
 To run the pipeline, just start the `build.sh` script.
 ```shell script
@@ -66,13 +70,13 @@ sh build.sh
 
 #### Releasing the image
 After the build pipeline has been finished and the image has been prepared for release, releasing the image can be done
-using the `release` script in the make file.  
+using the `release` script in the make file.
 _Note: Before you release, make sure that the sakuli version is correctly set in the makefile_
 ```shell script
 make release
 ```
- 
- 
+
+
 ## Installing the image on a customers cluster
 
 ### Creating a docker secret and importing the image
