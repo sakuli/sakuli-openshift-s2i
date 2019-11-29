@@ -102,3 +102,21 @@ oc import-image sakuli-s2i \
 ### Applying infrastructure
 To setup an s2i build in an OpenShift cluster, various Objects are required. A predefined template can be found in the
 [s2i-build-template.yml](s2i-build-template.yml).
+
+# Troubleshooting
+
+## `pulling image error : ...`
+
+**Affected OpenShift versions:** 3.10, 3.11
+
+So far, this error occured on 3.10 and 3.11 clusters when trying to pull our s2i image from our private Dockerhub repo.
+A workaround to solve this issue was to use `reference-policy=local` on the sakuli-s2i image stream.
+
+```bash
+oc import-image sakuli-s2i \
+    --from=docker.io/taconsol/sakuli-s2i \
+    --confirm \
+    --scheduled=true \
+    --all \
+    --reference-policy=local
+```
