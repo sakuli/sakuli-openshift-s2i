@@ -1,5 +1,5 @@
 IMAGE_NAME = sakuli-s2i
-SAKULI_VERSION = 2.1.3
+SAKULI_VERSION = 2.2.0
 
 .PHONY: build
 build:
