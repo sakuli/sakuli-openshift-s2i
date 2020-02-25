@@ -1,6 +1,7 @@
 # sakuli-s2i
 ARG BASE_IMAGE_VERSION=2.2.0
-FROM taconsol/sakuli:${BASE_IMAGE_VERSION}
+ARG BASE_IMAGE=sakuli
+FROM taconsol/${BASE_IMAGE}:${BASE_IMAGE_VERSION}
 
 LABEL maintainer="Sven Hettwer <Sven.Hettwer@consol.de>"
 
