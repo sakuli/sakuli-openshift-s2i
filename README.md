@@ -74,11 +74,9 @@ The test, which consists of a simple check for [sakuli.io](https://sakuli.io), s
 #### Releasing the image
 After the build scripts have finished and the image has been prepared for release, releasing the image can be done
 using the `release` stage in the make file.
-_Note: Before you release, make sure that the sakuli version is correctly set as an environment variable_
+_Note: Before you release, make sure that the sakuli version is correctly set in the shell script_
 ```shell script
-TAG_VERSION=<TAG_VERSION>
-make release IMAGE_NAME=sakuli-s2i TAG_VERSION=${TAG_VERSION}
-make release IMAGE_NAME=sakuli-s2i-remote-connection TAG_VERSION=${TAG_VERSION}
+sh release.sh
 ```
 
 
