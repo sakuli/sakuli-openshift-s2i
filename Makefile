@@ -10,7 +10,9 @@ test:
 .PHONY: prepare-release
 prepare-release:
 	docker tag $(IMAGE_NAME)-candidate taconsol/$(IMAGE_NAME):$(TAG_VERSION)
+	docker tag $(IMAGE_NAME)-candidate taconsol/$(IMAGE_NAME):latest
 
 .PHONY: release
 release:
 	docker push taconsol/$(IMAGE_NAME):$(TAG_VERSION)
+	docker push taconsol/$(IMAGE_NAME):latest
