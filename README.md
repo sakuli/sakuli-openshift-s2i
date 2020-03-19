@@ -1,4 +1,11 @@
-# Creating a basic S2I builder image
+# Creating a basic S2I builder images
+
+This repository contains an S2I setup process for any Sakuli based docker container. This does not only allow to add
+S2I support easily for various enterprise container, but also for custom Sakuli docker images used in customer projects.
+
+Currently available S2I enterprise container:
+* `taconsol/sakuli-s2i`: Default Sakuli container with S2I functionality
+* `taconsol/sakuli-s2i-remote-connection`: Sakuli container providing RDP with S2I functionality
 
 ## Getting started
 
@@ -14,37 +21,41 @@
 | test/test-app          | Yes       | Test application source code                                 |
 
 #### Dockerfile
-Create a *Dockerfile* that installs all of the necessary tools and libraries that are needed to build and run our
-sakuli 2 testcase.  This file will also handle copying the s2i scripts into the created image.
+*Dockerfile* that installs the s2i scripts into the created image. All required software to execute Sakuli test cases 
+is delivered by the base images. 
 
 #### S2I binary
-
 You can download the S2I binary for your platform from [GitHub](https://github.com/openshift/source-to-image/releases)
 
-#### S2I scripts
+### S2I scripts
+#### Create the builder images
+Builder images are created via *make*. A corresponding *Makefile* is included.
+There are two scripts responsible to build enterprise container.
 
-#### Create the builder image
-The following command will create a builder image named sakuli-s2i based on the Dockerfile of this repository.
-```
-docker build -t sakuli-s2i .
-```
-The builder image can also be created by using the *make* command since a *Makefile* is included.
+| Container                    | Script                 |
+|------------------------------|------------------------|
+| sakuli-s2i                   | build-sakuli-base.sh   |
+| sakuli-s2i-remote-connection | build-sakuli-remote.sh |
 
-Once the image has finished building, the command *s2i usage sakuli-s2i* will print out the help info that was defined
-in the *usage* script.
+Once the images have finished building, the command *s2i usage sakuli-s2i* respectively 
+*s2i usage sakuli-s2i-remote-connection* will print out the help info that was defined in the *usage* script.
 
 #### Testing the builder image
-The builder image can be tested using the following commands:
+The builder images can be tested using the following commands:
 ```
-docker build -t sakuli-s2i-candidate .
 IMAGE_NAME=sakuli-s2i-candidate test/run
 ```
-The builder image can also be tested by using the *make test* command since a *Makefile* is included.
+respectively
+```
+IMAGE_NAME=sakuli-s2i-remote-connection test/run
+```
+
+The builder image can also be tested by using the `make test IMAGE_NAME=<IMAGE_NAME>` command since a *Makefile* is included.
 
 #### Creating the application image
-The image combines the builder image with your test source code, which is served using the sakuli2 docker image,
-compiled using the *assemble* script, and run using the *run* script.
-The following command will create the image containing a sample test:
+The image combines the builder image with your test source code, which is executed using the sakuli2 docker image,
+packed using the *assemble* script, and run using the *run* script.
+The following sample command will create the image containing a sample test:
 ```
 s2i build test/test-app sakuli-s2i sakuli-s2i-candidate
 ---> Building and installing test image from source...
@@ -60,26 +71,19 @@ docker run -d -p 6901:6901 sakuli-s2i-candidate
 The test, which consists of a simple check for [sakuli.io](https://sakuli.io), should now be accessible at
 [http://localhost:6901](http://localhost:6901?password=vncpassword).
 
-#### Build pipeline
-To run the whole pipeline consisting of a build step, a test step covering the container consistency, build
-functionality and e2e tests and a pre-release step where the container image is tagged to be pushed to docker.io.
-To run the pipeline, just start the `build.sh` script.
-```shell script
-sh build.sh
-```
-
 #### Releasing the image
-After the build pipeline has been finished and the image has been prepared for release, releasing the image can be done
-using the `release` script in the make file.
-_Note: Before you release, make sure that the sakuli version is correctly set in the makefile_
+After the build scripts have finished and the image has been prepared for release, releasing the image can be done
+using the `release` stage in the make file.
+_Note: Before you release, make sure that the sakuli version is correctly set as an environment variable_
 ```shell script
-make release
+TAG_VERSION=<TAG_VERSION>
+make release IMAGE_NAME=sakuli-s2i TAG_VERSION=${TAG_VERSION}
+make release IMAGE_NAME=sakuli-s2i-remote-connection TAG_VERSION=${TAG_VERSION}
 ```
 
 
-## Installing the image on a customers cluster
-
-### Creating a docker secret and importing the image
+# Installing the image on a customers cluster
+## Creating a docker secret and importing the image
 In order to connect to docker hub during a OpenShift image import, it is required to create a `docker-registry` secret
 containing the credentials to access the _taconsol_ docker repository so that the image can be imported as follows.
 It is also important to link the image to the `builder` service account before importing the image.
@@ -99,7 +103,7 @@ oc import-image sakuli-s2i \
     --all=true
 ```
 
-### Applying infrastructure
+## Applying infrastructure
 To setup an s2i build in an OpenShift cluster, various Objects are required. A predefined template can be found in the
 [s2i-build-template.yml](s2i-build-template.yml).
 
