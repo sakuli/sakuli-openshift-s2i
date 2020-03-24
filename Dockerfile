@@ -16,9 +16,9 @@ COPY ./s2i/bin/* /opt/s2i/
 RUN chmod 775 /opt/s2i/* && \
     mkdir -p ${SAKULI_TEST_SUITE} && \
     chmod -R 775 ${SAKULI_TEST_SUITE} && \
-    chgrp -R 1000 ${SAKULI_TEST_SUITE}
+    chgrp -R root ${SAKULI_TEST_SUITE}
 
-USER 1000:1000
+USER 1000
 
 ENTRYPOINT []
 CMD ["/opt/sakuli/s2i/usage"]
