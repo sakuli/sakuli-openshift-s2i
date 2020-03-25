@@ -4,4 +4,3 @@ echo "---> Copy test suite from repo"
 rm -rf $HOME/demo_testcase
 cp -fr /tmp/src/* ${SAKULI_TEST_SUITE}
 chmod -R g+rwx ${SAKULI_TEST_SUITE}/*
-chmod -R g+rwx  /headless/.config
