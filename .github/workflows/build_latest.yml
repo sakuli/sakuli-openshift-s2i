@@ -1,0 +1,39 @@
+name: build-latest
+
+on:
+  push:
+    branches: [develop, feature/**]
+  repository_dispatch:
+    types: [build-latest]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+        with:
+          node-version: '12'
+      - name: Install s2i
+        run: |
+          curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/s2i.tar.gz
+          tar -xvf s2i.tar.gz
+          chmod +rx $HOME/s2i
+      - name: Login to Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
+      - name: Build and test s2i images
+        run: |
+          export PATH=$PATH:$HOME
+          make build test BASE_IMAGE=taconsol/sakuli BASE_IMAGE_VERSION=latest IMAGE_NAME=taconsol/sakuli-s2i
+          make build test BASE_IMAGE=taconsol/sakuli-remote-connection BASE_IMAGE_VERSION=latest IMAGE_NAME=taconsol/sakuli-s2i-remote-connection
+      - name: Tag s2i images
+        run: |
+          docker tag taconsol/sakuli-s2i-candidate taconsol/sakuli-s2i:latest
+          docker tag taconsol/sakuli-s2i-remote-connection-candidate taconsol/sakuli-s2i-remote-connection:latest
+      - name: Publish s2i images
+        run: |
+          docker push taconsol/sakuli-s2i:latest
+          docker push taconsol/sakuli-s2i-remote-connection:latest
