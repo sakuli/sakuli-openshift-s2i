@@ -20,7 +20,7 @@ jobs:
       - name: Install s2i
         run: |
           curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/s2i.tar.gz
-          tar -xvf s2i.tar.gz
+          tar -xvf $HOME/s2i.tar.gz
           chmod +rx $HOME/s2i
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
