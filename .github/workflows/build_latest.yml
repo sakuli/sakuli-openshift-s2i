@@ -35,5 +35,5 @@ jobs:
           docker tag taconsol/sakuli-s2i-remote-connection-candidate taconsol/sakuli-s2i-remote-connection:latest
       - name: Publish s2i images
         run: |
-          docker push taconsol/sakuli-s2i:latest
-          docker push taconsol/sakuli-s2i-remote-connection:latest
+        docker push taconsol/sakuli-s2i:latest
+        docker push taconsol/sakuli-s2i-remote-connection:latest
