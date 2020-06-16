@@ -1,7 +1,11 @@
 
 .PHONY: build
 build:
-	docker build --no-cache --build-arg=BASE_IMAGE=$(BASE_IMAGE) --build-arg=BASE_IMAGE_VERSION=$(BASE_IMAGE_VERSION) -t $(IMAGE_NAME)-candidate .
+	docker build \
+	--no-cache \
+	--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
+	--build-arg=BASE_IMAGE_VERSION=$(BASE_IMAGE_VERSION) \
+	-t $(IMAGE_NAME)-candidate .
 
 .PHONY: test
 test:
