@@ -18,13 +18,7 @@ jobs:
         with:
           node-version: '12'
       - name: Download s2i
-        run: |
-          curl -s https://api.github.com/repos/openshift/source-to-image/releases/latest
-          grep browser_download_url
-          grep linux-amd64
-          cut -d '"' -f 4
-          wget -qi -
-        working-directory: $HOME
+        run: curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz
       - name: Extract s2i
         run: tar xvf $HOME/source-to-image*.gz
       - name: Login to Dockerhub
