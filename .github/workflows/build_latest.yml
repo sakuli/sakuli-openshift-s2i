@@ -19,9 +19,13 @@ jobs:
           node-version: '12'
       - name: Install s2i
         run: |
-          curl -L https://github.com/openshift/source-to-image/releases/download/v1.2.0/source-to-image-v1.2.0-2a579ecd-linux-amd64.tar.gz -o $HOME/source-to-image-v1.2.0.tar.gz
-          tar -xvf $HOME/source-to-image-v1.2.0.tar.gz --overwrite
-          chmod +rx $HOME/s2i
+          curl -s https://api.github.com/repos/openshift/source-to-image/releases/latest \
+            | grep browser_download_url \
+            | grep linux-amd64 \
+            | cut -d '"' -f 4 \
+            | wget -qi -
+          tar xvf source-to-image*.gz
+        working-directory: $HOME
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Build and test s2i images
