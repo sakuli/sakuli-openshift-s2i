@@ -19,8 +19,7 @@ jobs:
           go-version: '^1.14.1'
       - name: Install s2i
         run: |
-          sudo apt update
-          sudo apt install libdevmapper1.02.1
+          export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/lib/x86_64-linux-gnu/pkgconfig
           go get github.com/openshift/source-to-image/cmd/s2i
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
