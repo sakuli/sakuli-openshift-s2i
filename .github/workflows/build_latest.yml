@@ -13,10 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.2
-        with:
-          node-version: '12'
       - name: Download s2i
         run: curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz
       - name: Extract s2i
