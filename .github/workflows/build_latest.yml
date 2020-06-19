@@ -13,10 +13,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download s2i
-        run: curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz
-      - name: Extract s2i
-        run: sudo tar xvf $HOME/source-to-image*.gz
+      - name: Setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.14.1'
+      - name: Install s2i
+        run: go get github.com/openshift/source-to-image/cmd/s2i
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Build and test s2i images
