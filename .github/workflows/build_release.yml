@@ -1,0 +1,34 @@
+name: build-latest
+
+on:
+  repository_dispatch:
+    types: [build-release]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download s2i
+        run: curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz
+      - name: Extract s2i
+        run: tar xvf $HOME/source-to-image*.gz -C $HOME
+      - name: Login to Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
+      - name: Get latest Sakuli version number
+        run: echo "::set-env name=SAKULI_VERSION::$(git ls-remote --tags git@github.com:sakuli/sakuli-docker.git | tail -1 | awk '{print $2}' | cut -d/ -f 3 | cut -c 2-6)"
+      - name: Build and test s2i images
+        run: |
+          export PATH=$PATH:$HOME
+          make build test BASE_IMAGE=sakuli BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=taconsol/sakuli-s2i
+          make build test BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=taconsol/sakuli-s2i-remote-connection
+      - name: Tag s2i images
+        run: |
+          docker tag taconsol/sakuli-s2i-candidate taconsol/sakuli-s2i:${SAKULI_VERSION}
+          docker tag taconsol/sakuli-s2i-remote-connection-candidate taconsol/sakuli-s2i-remote-connection:${SAKULI_VERSION}
+      - name: Publish s2i images
+        run: |
+          docker push taconsol/sakuli-s2i:${SAKULI_VERSION}
+          docker push taconsol/sakuli-s2i-remote-connection:${SAKULI_VERSION}
