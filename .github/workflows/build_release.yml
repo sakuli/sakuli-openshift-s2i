@@ -1,8 +1,6 @@
 name: build-release
 
 on:
-  push:
-    branch: [feature/**]
   repository_dispatch:
     types: [build-release]
 
@@ -22,9 +20,8 @@ jobs:
       - name: Get latest Sakuli version number
         run: |
           echo "::set-env name=SAKULI_VERSION::$(node -pe 'JSON.parse(process.argv[1])[0].name' "$(curl -s https://api.github.com/repos/sakuli/sakuli/tags)" | cut -c 2-6)"
-          echo $SAKULI_VERSION
       - name: Build, test and release s2i images
         run: |
           export PATH=$PATH:$HOME
-          make build test prepare-release BASE_IMAGE=sakuli BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=taconsol/sakuli-s2i TAG_VERSION=${SAKULI_VERSION}
-          make build test prepare-release BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=taconsol/sakuli-s2i-remote-connection TAG_VERSION=${SAKULI_VERSION}
+          make build test prepare-release release BASE_IMAGE=sakuli BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=taconsol/sakuli-s2i TAG_VERSION=${SAKULI_VERSION}
+          make build test prepare-release release BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=taconsol/sakuli-s2i-remote-connection TAG_VERSION=${SAKULI_VERSION}
