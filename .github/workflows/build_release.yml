@@ -20,7 +20,9 @@ jobs:
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Get latest Sakuli version number
-        run: echo "::set-env name=SAKULI_VERSION::$(node -pe 'JSON.parse(process.argv[1])[0].name' "$(curl -s https://api.github.com/repos/sakuli/sakuli/tags)" | cut -c 2-6)"
+        run: |
+          echo "::set-env name=SAKULI_VERSION::$(node -pe 'JSON.parse(process.argv[1])[0].name' "$(curl -s https://api.github.com/repos/sakuli/sakuli/tags)" | cut -c 2-6)"
+          echo $SAKULI_VERSION
       - name: Build, test and release s2i images
         run: |
           export PATH=$PATH:$HOME
