@@ -20,3 +20,7 @@ prepare-release:
 release:
 	docker push taconsol/$(IMAGE_NAME):$(TAG_VERSION)
 	docker push taconsol/$(IMAGE_NAME):latest
+
+.PHONY: release-latest
+release:
+	docker push taconsol/$(IMAGE_NAME):latest
