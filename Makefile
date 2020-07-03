@@ -16,6 +16,10 @@ prepare-release:
 	docker tag $(IMAGE_NAME)-candidate $(IMAGE_NAME):$(TAG_VERSION)
 	docker tag $(IMAGE_NAME)-candidate $(IMAGE_NAME):latest
 
+.PHONY: prepare-latest
+prepare-latest:
+	docker tag $(IMAGE_NAME)-candidate $(IMAGE_NAME):latest
+
 .PHONY: release
 release:
 	docker push taconsol/$(IMAGE_NAME):$(TAG_VERSION)

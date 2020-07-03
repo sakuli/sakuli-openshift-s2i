@@ -22,5 +22,5 @@ jobs:
       - name: Build and test s2i images
         run: |
           export PATH=$PATH:$HOME
-          make build test prepare-release release-latest BASE_IMAGE=sakuli BASE_IMAGE_VERSION=latest IMAGE_NAME=taconsol/sakuli-s2i
-          make build test prepare-release release-latest BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=latest IMAGE_NAME=taconsol/sakuli-s2i-remote-connection
+          make build test prepare-latest release-latest BASE_IMAGE=sakuli BASE_IMAGE_VERSION=latest IMAGE_NAME=taconsol/sakuli-s2i
+          make build test prepare-latest release-latest BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=latest IMAGE_NAME=taconsol/sakuli-s2i-remote-connection
