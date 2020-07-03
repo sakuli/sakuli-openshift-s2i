@@ -13,12 +13,12 @@ test:
 
 .PHONY: prepare-release
 prepare-release:
-	docker tag $(IMAGE_NAME)-candidate $(IMAGE_NAME):$(TAG_VERSION)
-	docker tag $(IMAGE_NAME)-candidate $(IMAGE_NAME):latest
+	docker tag $(IMAGE_NAME)-candidate taconsol/$(IMAGE_NAME):$(TAG_VERSION)
+	docker tag $(IMAGE_NAME)-candidate taconsol/$(IMAGE_NAME):latest
 
 .PHONY: prepare-latest
 prepare-latest:
-	docker tag $(IMAGE_NAME)-candidate $(IMAGE_NAME):latest
+	docker tag $(IMAGE_NAME)-candidate taconsol/$(IMAGE_NAME):latest
 
 .PHONY: release
 release:
