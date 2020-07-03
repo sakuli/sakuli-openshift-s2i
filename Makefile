@@ -22,5 +22,5 @@ release:
 	docker push taconsol/$(IMAGE_NAME):latest
 
 .PHONY: release-latest
-release:
+release-latest:
 	docker push taconsol/$(IMAGE_NAME):latest
