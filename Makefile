@@ -1,7 +1,11 @@
 
 .PHONY: build
 build:
-	docker build --no-cache --build-arg=BASE_IMAGE=$(BASE_IMAGE) --build-arg=BASE_IMAGE_VERSION=$(BASE_IMAGE_VERSION) -t $(IMAGE_NAME)-candidate .
+	docker build \
+	--no-cache \
+	--build-arg=BASE_IMAGE=$(BASE_IMAGE) \
+	--build-arg=BASE_IMAGE_VERSION=$(BASE_IMAGE_VERSION) \
+	-t $(IMAGE_NAME)-candidate .
 
 .PHONY: test
 test:
@@ -15,4 +19,8 @@ prepare-release:
 .PHONY: release
 release:
 	docker push taconsol/$(IMAGE_NAME):$(TAG_VERSION)
+	docker push taconsol/$(IMAGE_NAME):latest
+
+.PHONY: release-latest
+release-latest:
 	docker push taconsol/$(IMAGE_NAME):latest
