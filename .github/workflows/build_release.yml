@@ -19,7 +19,7 @@ jobs:
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
       - name: Get latest Sakuli version number
-        run: echo "::set-env name=SAKULI_VERSION::${GITHUB_REF#refs/*/v}
+        run: echo "::set-env name=SAKULI_VERSION::${GITHUB_REF#refs/*/v}"
       - name: Build, test and release s2i images
         run: |
           export PATH=$PATH:$HOME
