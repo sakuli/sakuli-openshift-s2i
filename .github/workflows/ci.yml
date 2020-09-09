@@ -1,4 +1,4 @@
-name: build-latest
+name: ci
 
 on:
   push:
