@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+      - 'develop'
+  pull_request:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install s2i
+        run: |
+          curl -L https://github.com/openshift/source-to-image/releases/download/v1.3.0/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz -o $HOME/source-to-image-v1.3.0-eed2850f-linux-amd64.tar.gz
+          tar xvf $HOME/source-to-image*.gz -C $HOME
+      - name: Login to Dockerhub
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
+      - name: Build and test s2i images
+        run: |
+          export PATH=$PATH:$HOME
+          make build test BASE_IMAGE=sakuli BASE_IMAGE_VERSION=latest IMAGE_NAME=sakuli-s2i
+          make build test BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=latest IMAGE_NAME=sakuli-s2i-remote-connection
