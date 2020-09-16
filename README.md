@@ -27,59 +27,6 @@ is delivered by the base images.
 #### S2I binary
 You can download the S2I binary for your platform from [GitHub](https://github.com/openshift/source-to-image/releases)
 
-### S2I scripts
-#### Create the builder images
-Builder images are created via *make*. A corresponding *Makefile* is included.
-There are two scripts responsible to build enterprise container.
-
-| Container                    | Script                 |
-|------------------------------|------------------------|
-| sakuli-s2i                   | build-sakuli-base.sh   |
-| sakuli-s2i-remote-connection | build-sakuli-remote.sh |
-
-Once the images have finished building, the command *s2i usage sakuli-s2i* respectively 
-*s2i usage sakuli-s2i-remote-connection* will print out the help info that was defined in the *usage* script.
-
-#### Testing the builder image
-The builder images can be tested using the following commands:
-```
-IMAGE_NAME=sakuli-s2i-candidate test/run
-```
-respectively
-```
-IMAGE_NAME=sakuli-s2i-remote-connection test/run
-```
-
-The builder image can also be tested by using the `make test IMAGE_NAME=<IMAGE_NAME>` command since a *Makefile* is included.
-
-#### Creating the application image
-The image combines the builder image with your test source code, which is executed using the sakuli2 docker image,
-packed using the *assemble* script, and run using the *run* script.
-The following sample command will create the image containing a sample test:
-```
-s2i build test/test-app sakuli-s2i sakuli-s2i-candidate
----> Building and installing test image from source...
-```
-Using the logic defined in the *assemble* script, s2i will now create an image using the builder image as a base and
-including the source code from the test/test-app directory.
-
-#### Running the application image
-Running the image is as simple as invoking the docker run command:
-```
-docker run -d -p 6901:6901 sakuli-s2i-candidate
-```
-The test, which consists of a simple check for [sakuli.io](https://sakuli.io), should now be accessible at
-[http://localhost:6901](http://localhost:6901?password=vncpassword).
-
-#### Releasing the image
-After the build scripts have finished and the image has been prepared for release, releasing the image can be done
-using the `release` stage in the make file.
-_Note: Before you release, make sure that the sakuli version is correctly set in the shell script_
-```shell script
-sh release.sh
-```
-
-
 # Installing the image on a customers cluster
 ## Creating a docker secret and importing the image
 In order to connect to docker hub during a OpenShift image import, it is required to create a `docker-registry` secret
