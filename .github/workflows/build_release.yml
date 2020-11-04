@@ -18,10 +18,11 @@ jobs:
         run: tar xvf $HOME/source-to-image*.gz -C $HOME
       - name: Login to Dockerhub
         run: docker login -u ${{ secrets.DOCKER_USER }} -p "${{ secrets.DOCKER_PASSWORD }}"
-      - name: Get latest Sakuli version number
-        run: echo "::set-env name=SAKULI_VERSION::${GITHUB_REF#refs/*/v}"
+      - name: Set SAKULI_VERSION according to tag
+        run: echo "SAKULI_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+      - name: Add HOME directory to PATH
+        run: echo "$HOME" >> $GITHUB_PATH
       - name: Build, test and release s2i images
         run: |
-          export PATH=$PATH:$HOME
           make build test prepare-release release BASE_IMAGE=sakuli BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=sakuli-s2i TAG_VERSION=${SAKULI_VERSION}
           make build test prepare-release release BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=sakuli-s2i-remote-connection TAG_VERSION=${SAKULI_VERSION}
