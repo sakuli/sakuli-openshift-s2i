@@ -32,4 +32,5 @@ No relevant changes
 
 ## v2.1.3
 
-No relevant changes
+Initial Version
+- Build sakuli containers with s2i on OpenShift
