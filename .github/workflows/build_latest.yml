@@ -25,3 +25,5 @@ jobs:
         run: |
           make build test prepare-latest release-latest BASE_IMAGE=sakuli BASE_IMAGE_VERSION=latest IMAGE_NAME=sakuli-s2i
           make build test prepare-latest release-latest BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=latest IMAGE_NAME=sakuli-s2i-remote-connection
+        env:
+          SAKULI_LICENSE_KEY: ${{secrets.SAKULI_LICENSE_KEY}}
