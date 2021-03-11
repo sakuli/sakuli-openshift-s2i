@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Upcoming Release
+## 2.5.0
 
 - migrate set-env and add-path [(#15)](https://github.com/sakuli/sakuli-openshift-s2i/issues/15)
 
