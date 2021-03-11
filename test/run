@@ -10,7 +10,6 @@
 # The image has to be available before this script is executed.
 #
 IMAGE_NAME=${IMAGE_NAME-sakuli-s2i-candidate}
-SAKULI_LICENSE="eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJjYXRlZ29yeSI6NCwiaWF0IjoxNTgzNTAwNzg3LCJuYmYiOjE1ODM1MDA3ODcsImV4cCI6MTYxNTA1ODM4NywiYXVkIjoic2FrdWxpLXJlbW90ZS1jb25uZWN0aW9uIiwiaXNzIjoic2FrdWxpLmlvIiwic3ViIjoic2FrdWxpX3VzZXIifQ.0i5qQD50sEVqdOx9wdTKyM5w4IuWj0WllIHhoddrgqUM2WbwT9vlM44D27PA4dDcN8skRsPXsqe_qQN0h1QuaQ"
 
 # Determining system utility executables (darwin compatibility check)
 READLINK_EXEC="readlink -zf"
@@ -72,7 +71,7 @@ prepare() {
 }
 
 run_test_application() {
-  docker run --rm --cidfile=${cid_file} -e SAKULI_LICENSE_KEY=${SAKULI_LICENSE} -p ${test_port}:${test_port} $1
+  docker run --rm --cidfile=${cid_file} -e SAKULI_LICENSE_KEY=${SAKULI_LICENSE_KEY} -p ${test_port}:${test_port} $1
   return $?
 }
 
