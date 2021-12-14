@@ -71,7 +71,7 @@ prepare() {
 }
 
 run_test_application() {
-  docker run --rm --cidfile=${cid_file} -e SAKULI_LICENSE_KEY=${SAKULI_LICENSE_KEY} -p ${test_port}:${test_port} $1
+  docker run --rm --cidfile=${cid_file} -p ${test_port}:${test_port} $1
   return $?
 }
 

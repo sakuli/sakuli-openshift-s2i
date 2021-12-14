@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## next
+
+- Open Source [(#19)](https://github.com/sakuli/sakuli-openshift-s2i/issues/19)
+
 ## 2.5.1
 
 - security fixes in base image
