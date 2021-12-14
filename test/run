@@ -71,7 +71,7 @@ prepare() {
 }
 
 run_test_application() {
-  docker run --rm --cidfile=${cid_file} -e -p ${test_port}:${test_port} $1
+  docker run --rm --cidfile=${cid_file} -p ${test_port}:${test_port} $1
   return $?
 }
 
