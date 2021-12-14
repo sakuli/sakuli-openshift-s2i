@@ -26,5 +26,3 @@ jobs:
         run: |
           make build test prepare-release release BASE_IMAGE=sakuli BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=sakuli-s2i TAG_VERSION=${SAKULI_VERSION}
           make build test prepare-release release BASE_IMAGE=sakuli-remote-connection BASE_IMAGE_VERSION=${SAKULI_VERSION} IMAGE_NAME=sakuli-s2i-remote-connection TAG_VERSION=${SAKULI_VERSION}
-        env:
-          SAKULI_LICENSE_KEY: ${{secrets.SAKULI_LICENSE_KEY}}
