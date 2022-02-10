@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## next
 
+
+## 3.0.0
+
 - Open Source [(#19)](https://github.com/sakuli/sakuli-openshift-s2i/issues/19)
 
 ## 2.5.1

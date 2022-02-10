@@ -14,6 +14,6 @@
     ]
   },
   "dependencies": {
-    "@sakuli/cli": "2.5.1"
+    "@sakuli/cli": "3.0.0"
   }
 }
